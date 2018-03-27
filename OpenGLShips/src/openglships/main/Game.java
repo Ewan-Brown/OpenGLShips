@@ -1,4 +1,4 @@
-package main;
+package openglships.main;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ public class Game {
 
 	public static void main(String[] args) {
 		Shapes.init();
-		for(int i = 0; i < 20;i++){
+		for(int i = 0; i < 10;i++){
 			movables.add(Particle.createParticle((float)Math.random() * 2 - 1,
 					(float)Math.random() * 2 - 1,
 					(float)Math.random() * 360,

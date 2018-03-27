@@ -1,4 +1,4 @@
-package main;
+package openglships.main;
 
 public abstract class Drawable {
 	

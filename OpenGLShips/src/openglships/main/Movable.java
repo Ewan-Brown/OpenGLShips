@@ -1,4 +1,4 @@
-package main;
+package openglships.main;
 
 public class Movable extends Drawable{
 	
@@ -6,6 +6,9 @@ public class Movable extends Drawable{
 		super(x, y, angle);
 		// TODO Auto-generated constructor stub
 	}
+	float xCenter;
+	float yCenter;
+	float rSquared;
 	float xSpeed = 0;
 	float ySpeed = 0;
 	float turnSpeed = 0;
@@ -20,6 +23,9 @@ public class Movable extends Drawable{
 		x += xSpeed;
 		y += ySpeed;
 		angle += turnSpeed;
+		xSpeed -= xSpeed / 100;
+		ySpeed -= ySpeed / 100;
+		turnSpeed -= turnSpeed / 100;
 	}
 
 }
