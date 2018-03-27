@@ -8,13 +8,16 @@ public class Thruster {
 	public float y;
 	public float throttle = 0.003f;
 	public float angleRelative = 0;
-	public float b;
+	public float bMod;
+	public float theta;
 	//TODO Center never gets updated. IF ship shapes change then it will have to get updates
 	public Thruster(float x, float y, float angleRelative, float xC, float yC){
 		this.x = x;
 		this.y = y;
-		b = Data.getDistance(x, xC, y, yC);
+		bMod = Data.getDistance(x, xC, y, yC);
 		this.angleRelative = angleRelative;
+		float Fx = 0;
+//		float f
 	}
 	
 }

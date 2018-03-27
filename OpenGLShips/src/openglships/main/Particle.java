@@ -31,8 +31,8 @@ public class Particle extends Movable{
 		float T = t.throttle;
 		float x = (float)(T*Math.cos(Math.toRadians(angle)));
 		float y = (float)(T*Math.sin(Math.toRadians(angle)));
-		float alpha  = T * t.b / rSquared;
-		System.out.println(t.b);
+		float alpha  = T * t.bMod * (float)Math.sin(theta)/ rSquared;
+		System.out.println(t.bMod);
 		turnSpeed += Math.toDegrees(alpha);
 		xSpeed += x;
 		ySpeed += y;
