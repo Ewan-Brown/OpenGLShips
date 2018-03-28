@@ -9,7 +9,7 @@ public class Game {
 	public static void main(String[] args) {
 		Shapes.init();
 		for(int i = 0; i < 10;i++){
-			movables.add(Particle.createParticle((float)Math.random() * 2 - 1,
+			movables.add(BasicShip.createShip((float)Math.random() * 2 - 1,
 					(float)Math.random() * 2 - 1,
 					(float)Math.random() * 360,
 					(float)Math.random()*0.45f + 0.05f));

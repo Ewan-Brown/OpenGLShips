@@ -1,14 +1,17 @@
 package openglships.main;
 
-public class Movable extends Drawable{
+public class Movable implements Drawable{
 	
 	public Movable(float x, float y, float angle) {
-		super(x, y, angle);
-		// TODO Auto-generated constructor stub
+		this.x = x;
+		this.y = y;
+		this.angle = angle;
 	}
+	public float angle = 0;
+	public float x = 0;
+	public float y = 0;
 	float xCenter;
 	float yCenter;
-	float rSquared;
 	float xSpeed = 0;
 	float ySpeed = 0;
 	float turnSpeed = 0;
@@ -23,9 +26,33 @@ public class Movable extends Drawable{
 		x += xSpeed;
 		y += ySpeed;
 		angle += turnSpeed;
-		xSpeed -= xSpeed / 100;
-		ySpeed -= ySpeed / 100;
-		turnSpeed -= turnSpeed / 100;
+		xSpeed -= xSpeed / 3;
+		ySpeed -= ySpeed / 3;
+		turnSpeed -= turnSpeed / 3;
+	}
+	@Override
+	public float getX() {
+		return x;
+	}
+	@Override
+	public float getY() {
+		return y;
+	}
+	@Override
+	public float getAngle() {
+		return angle;
+	}
+	@Override
+	public float getScale() {
+		return scale;
+	}
+	@Override
+	public float[] getVertices() {
+		return null;
+	}
+	@Override
+	public float[] getColors() {
+		return null;
 	}
 
 }

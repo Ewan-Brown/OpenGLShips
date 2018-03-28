@@ -50,9 +50,9 @@ public class Graphics {
 		for(int i = 0; i < Game.movables.size();i++){
 			Drawable d = Game.movables.get(i);
 			GL11.glPushMatrix(); 
-			GL11.glTranslatef(d.x,d.y,0);
-			GL11.glRotatef(d.angle, 0.0f, 0.0f, 1f);
-			GL11.glScalef(d.scale,d.scale,d.scale);
+			GL11.glTranslatef(d.getX(),d.getY(),0);
+			GL11.glRotatef(d.getAngle(), 0.0f, 0.0f, 1f);
+			GL11.glScalef(d.getScale(),d.getScale(),d.getScale());
 			GL11.glBegin(GL11.GL_POLYGON);
 			float[] v = d.getVertices();
 			for(int j = 0; j < v.length / 2;j++){

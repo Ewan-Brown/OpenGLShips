@@ -1,23 +1,16 @@
 package openglships.main;
 
-public abstract class Drawable {
+public interface Drawable {
 	
-	public Drawable(float x, float y, float angle){
-		this.x = x;
-		this.y = y;
-		this.angle = angle;
-	}
-	public float angle = 0;
-	public float x = 0;
-	public float y = 0;
+
+	public float getX();
+	public float getY();
+	public float getAngle();
+	public float getScale();
 	public float scale = 1;
 	// Comes in tuplets (x,y)
-	public float[] getVertices() {
-		return null;
-	}
+	public float[] getVertices();
 
 	// Comes in quadrets (r,g,b,a)
-	public float[] getColors() {
-		return null;
-	}
+	public float[] getColors();
 }

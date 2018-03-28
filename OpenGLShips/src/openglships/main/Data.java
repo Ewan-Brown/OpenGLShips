@@ -9,6 +9,10 @@ public class Data {
 		return (float)Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 
 	}
+	public static float getMod(float x, float y){
+		return (float)Math.sqrt((x)*(x) + (y)*(y));
+
+	}
 	public static Point2D getCenter(Point2D[] points){
 		double centreX = 0;
 		double centreY = 0;
