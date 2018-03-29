@@ -1,6 +1,6 @@
 package openglships.main;
 
-public class Particle extends Movable{
+public class Particle extends PhysicalObject{
 	
 	
 	private Particle(float x, float y, float angle, float scale) {

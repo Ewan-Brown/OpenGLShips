@@ -41,27 +41,60 @@ public class Graphics {
 	static private long window;
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 800;
-	public Graphics(){
-		
+	public static float r = 0;
+
+	public Graphics() {
+
 	}
+	/****************************************************************************
+	XXX THINGS ARE ORIENTED TO THE EAST, 0 DEGREES IS EAST REMEMBER <b>this</b> PLEASE
+	*****************************************************************************/
 	public static void render() {
+		// int VBO = GL15.glGenBuffers();
+		// GL15.glBindBuffer(VBO, GL15.GL_ARRAY_BUFFER);
+		// float[] f = new float[]{0,0,1,1};
+		// GL15.glBufferData(GL15.GL_ARRAY_BUFFER, f, GL15.GL_STATIC_DRAW);
 		GL11.glLoadIdentity();
 		GL11.glColor3f(0.5f, 0.5f, 0.9f);
-		for(int i = 0; i < Game.movables.size();i++){
-			Drawable d = Game.movables.get(i);
-			GL11.glPushMatrix(); 
-			GL11.glTranslatef(d.getX(),d.getY(),0);
+		r += 0.5;
+		for (int mainDrawable = 0; mainDrawable < Game.drawables.size(); mainDrawable++) {
+			Drawable d = Game.drawables.get(mainDrawable);
+			GL11.glColor3f(0.5f, 0.5f, 0.9f);
+			GL11.glPushMatrix();
+			GL11.glTranslatef(d.getX(), d.getY(), 0);
 			GL11.glRotatef(d.getAngle(), 0.0f, 0.0f, 1f);
-			GL11.glScalef(d.getScale(),d.getScale(),d.getScale());
+			GL11.glScalef(d.getScale(), d.getScale(), d.getScale());
 			GL11.glBegin(GL11.GL_POLYGON);
-			float[] v = d.getVertices();
-			for(int j = 0; j < v.length / 2;j++){
-				GL11.glVertex2f(v[j*2], v[j*2+1]);
+			float[] mainVerticeArray = d.getVertices();
+			for (int mainVertice = 0; mainVertice < mainVerticeArray.length / 2; mainVertice++) {
+				GL11.glVertex2f(mainVerticeArray[mainVertice * 2], mainVerticeArray[mainVertice * 2 + 1]);
 			}
 			GL11.glEnd();
 			GL11.glPopMatrix();
+			// TIME TO DRAW SUB BOYS :)
+//			Drawable[] subDrawArray = d.getSubDraws();
+//			GL11.glColor3f(1f, 1f, 0.0f);
+//			if(subDrawArray != null){
+//				for(int subDrawable = 0; subDrawable < subDrawArray.length;subDrawable++){
+//					Drawable sD = subDrawArray[subDrawable];
+//					GL11.glPushMatrix();
+//					GL11.glTranslatef(d.getX(), d.getY(), 0);
+//					GL11.glRotatef(d.getAngle(), 0.0f, 0.0f, 1f);
+//					GL11.glTranslatef(-sD.getX(),-sD.getY(),0);
+//					GL11.glScalef(sD.getScale(), sD.getScale(), sD.getScale());
+//					GL11.glBegin(GL11.GL_POLYGON);
+//					float[] subVerticeArray = sD.getVertices();
+//					for (int subVertice = 0; subVertice < subVerticeArray.length / 2; subVertice++) {
+//						GL11.glVertex2f(subVerticeArray[subVertice * 2], subVerticeArray[subVertice * 2 + 1]);
+//					}
+//					GL11.glEnd();
+//					GL11.glPopMatrix();
+//				}
+//			}
+
 		}
 	}
+
 	void run() {
 		init();
 		loop();
@@ -73,6 +106,7 @@ public class Graphics {
 		glfwTerminate();
 		glfwSetErrorCallback(null).free();
 	}
+
 	private static void loop() {
 		// bindings available for use.
 		GL.createCapabilities();

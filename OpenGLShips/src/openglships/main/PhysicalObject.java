@@ -1,8 +1,8 @@
 package openglships.main;
-
-public class Movable implements Drawable{
+//TODO Rename me maybe?
+public class PhysicalObject implements Drawable{
 	
-	public Movable(float x, float y, float angle) {
+	public PhysicalObject(float x, float y, float angle) {
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
@@ -52,6 +52,12 @@ public class Movable implements Drawable{
 	}
 	@Override
 	public float[] getColors() {
+
+		return null;
+	}
+	@Override
+	public Drawable[] getSubDraws() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

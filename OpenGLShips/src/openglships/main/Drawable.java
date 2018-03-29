@@ -2,7 +2,7 @@ package openglships.main;
 
 public interface Drawable {
 	
-
+	public Drawable[] getSubDraws();
 	public float getX();
 	public float getY();
 	public float getAngle();

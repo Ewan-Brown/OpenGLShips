@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 
 public class Shapes {
 	
-	static float[] rectangle = new float[8];
+	public static float[] rectangle = new float[8];
 	static Point2D rectangleCenter;
 	public static void init(){
 		rectangle[0] = -0.25f;
