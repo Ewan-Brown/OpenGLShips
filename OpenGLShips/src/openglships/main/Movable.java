@@ -1,5 +1,7 @@
 package openglships.main;
 
+import openglships.graphics.Drawable;
+
 public class Movable implements Drawable{
 	
 	public Movable(float x, float y, float angle) {

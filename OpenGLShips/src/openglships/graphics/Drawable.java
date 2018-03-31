@@ -1,4 +1,4 @@
-package openglships.main;
+package openglships.graphics;
 
 public interface Drawable {
 	
