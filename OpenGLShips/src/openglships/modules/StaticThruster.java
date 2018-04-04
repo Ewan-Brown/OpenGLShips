@@ -10,31 +10,31 @@ public class StaticThruster implements Drawable{
 	public float thrusterX;
 	public float thrusterY;
 	public float throttleMultiplier = 0.001f;
-	public float angleRelative = 0;
-	public float bMod;
+	public float baseAngle = 0;
+	public float rMod;
 	public float theta;
 	public float alphaAtMaxThrottle = 0;
-	public float bX;
-	public float bY;
+	public float rX;
+	public float rY;
 	BasicShip parent;
 	//XXX Clean this class up
 	public StaticThruster(BasicShip ship, float x, float y, float angleRelative, float centerX, float centerY, float rSquared,Direction d){
 		Direction = d;
 		thrusterX = x;
 		thrusterY = y;
-		bX = x - centerX;
-		bY = y - centerY;
-		bMod = Data.getMod(bX, bY);
+		rX = x - centerX;
+		rY = y - centerY;
+		rMod = Data.getMod(rX, rY);
 		float fMod = throttleMultiplier;
-		this.angleRelative = angleRelative;
+		this.baseAngle = angleRelative;
 		float fX = (throttleMultiplier * (float)Math.cos(Math.toRadians(angleRelative)));
 		float fY = (throttleMultiplier * (float)Math.sin(Math.toRadians(angleRelative)));
-		float theta = getAngle(fX, bX, fY, bY, bMod, fMod);
-		float theta2 = theta * Math.signum(bY);
-		if(bMod == 0){
+		float theta = getAngle(fX, rX, fY, rY, rMod, fMod);
+		float theta2 = theta * Math.signum(rY);
+		if(rMod == 0){
 			theta2 = 0;
 		}
-		alphaAtMaxThrottle = bMod * fMod * theta2 / rSquared;
+		alphaAtMaxThrottle = rMod * fMod * theta2 / rSquared;
 	}
 	public Direction Direction;
 	public static enum Direction{
@@ -66,6 +66,10 @@ public class StaticThruster implements Drawable{
 	}
 	@Override
 	public float[] getColors() {
+		return null;
+	}
+	@Override
+	public Drawable[] getSubDrawables() {
 		return null;
 	}
 	

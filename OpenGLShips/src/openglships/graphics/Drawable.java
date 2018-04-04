@@ -10,7 +10,7 @@ public interface Drawable {
 	public float scale = 1;
 	// Comes in tuplets (x,y)
 	public float[] getVertices();
-
+	public Drawable[] getSubDrawables();
 	// Comes in quadrets (r,g,b,a)
 	public float[] getColors();
 }

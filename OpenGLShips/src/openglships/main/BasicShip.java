@@ -2,6 +2,8 @@ package openglships.main;
 
 import java.util.ArrayList;
 
+import openglships.graphics.Drawable;
+import openglships.modules.DynamicThruster;
 import openglships.modules.StaticThruster;
 import openglships.modules.StaticThruster.Direction;;
 
@@ -27,48 +29,47 @@ public class BasicShip extends Entity {
 			}
 		};
 
-		p.thrusters.add(new StaticThruster(p, 0.0f, 0.1f, 0, p.xCenter, p.yCenter, 0.25f * 0.25f,Direction.FORWARD));
-		p.thrusters.add(new StaticThruster(p, 0.0f, -0.1f, 0, p.xCenter, p.yCenter, 0.25f * 0.25f,Direction.FORWARD));
+		p.staticThrusters.add(new StaticThruster(p, 0.1f, 0.1f, 0, p.xCenter, p.yCenter, 0.25f * 0.25f,Direction.FORWARD));
+		p.dynamicThrusters.add(new DynamicThruster(0,0.1f,0,p));
 		return p;
 	}
-	//XXX CUrrently have a method for collecting each one with the sum loop. throuttle should be calcualted before then summed so no repeating code
-	//Throttle positive for Right, negative for left
-	public void doTurnWithThrottle(float currentThrottle){
+	public Drawable[] getSubDrawables(){
+		return staticThrusters.toArray(new StaticThruster[staticThrusters.size()]);
 	}
 	public void update() {
 		super.update();
-		//		doTurnWithThrottle(0.5f);
-		applyThrust(1f);
+		xSpeed -= xSpeed / 3;
+		ySpeed -= ySpeed / 3;
+		turnSpeed -= turnSpeed / 3;
+		applyDynamicThrust(1f);
 	}
 
-	// Thruster t;
-	ArrayList<StaticThruster> thrusters = new ArrayList<StaticThruster>();
+	ArrayList<StaticThruster> staticThrusters = new ArrayList<StaticThruster>();
+	ArrayList<DynamicThruster> dynamicThrusters = new ArrayList<DynamicThruster>();
 
-	public void applyThrust(float currentThrottle) {
+	public void applyStaticThrust(float currentThrottle) {
 		float sumX = 0;
 		float sumY = 0;
 		float sumAlpha = 0;
-		for (StaticThruster t : thrusters) {
+		for (StaticThruster t : staticThrusters) {
 			float T = t.throttleMultiplier * currentThrottle ;
-			sumX += (float) (T * Math.cos(Math.toRadians(angle + t.angleRelative)));
-			sumY += (float) (T * Math.sin(Math.toRadians(angle + t.angleRelative)));
-			sumAlpha += Math.toDegrees(t.alphaAtMaxThrottle) * T;
+			sumX += (float) (T * Math.cos(Math.toRadians(angle + t.baseAngle)));
+			sumY += (float) (T * Math.sin(Math.toRadians(angle + t.baseAngle)));
+			sumAlpha += Math.toDegrees(t.alphaAtMaxThrottle);
 		}
 		turnSpeed += sumAlpha;
 		xSpeed += sumX;
 		ySpeed += sumY;
 	}
-	public void applyThrust(float currentThrottle,Direction d) {
+	public void applyDynamicThrust(float currentThrottle) {
 		float sumX = 0;
 		float sumY = 0;
 		float sumAlpha = 0;
-		for (StaticThruster t : thrusters) {
-			if(t.Direction == d){
-				float T = t.throttleMultiplier * currentThrottle ;
-				sumX += (float) (T * Math.cos(Math.toRadians(angle + t.angleRelative)));
-				sumY += (float) (T * Math.sin(Math.toRadians(angle + t.angleRelative)));
-				sumAlpha += Math.toDegrees(t.alphaAtMaxThrottle) * T;
-			}
+		for (DynamicThruster t : dynamicThrusters) {
+			float T = t.thrustMultiplier * currentThrottle ;
+			sumX += (float) (T * Math.cos(Math.toRadians(angle + t.baseAngle + t.currentAngle)));
+			sumY += (float) (T * Math.sin(Math.toRadians(angle + t.baseAngle + t.currentAngle)));
+			sumAlpha += Math.toDegrees(t.getTurningAcceleration());
 		}
 		turnSpeed += sumAlpha;
 		xSpeed += sumX;

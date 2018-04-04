@@ -3,7 +3,6 @@ package openglships.main;
 import openglships.graphics.Drawable;
 
 public class Movable implements Drawable{
-	
 	public Movable(float x, float y, float angle) {
 		this.x = x;
 		this.y = y;
@@ -28,9 +27,6 @@ public class Movable implements Drawable{
 		x += xSpeed;
 		y += ySpeed;
 		angle += turnSpeed;
-		xSpeed -= xSpeed / 3;
-		ySpeed -= ySpeed / 3;
-		turnSpeed -= turnSpeed / 3;
 	}
 	@Override
 	public float getX() {
@@ -54,6 +50,10 @@ public class Movable implements Drawable{
 	}
 	@Override
 	public float[] getColors() {
+		return null;
+	}
+	@Override
+	public Drawable[] getSubDrawables() {
 		return null;
 	}
 

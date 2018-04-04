@@ -1,0 +1,17 @@
+This is to be a remake of my ICS4U culminating project. That project has amalgamated too mush trash and unstructured code for me to bother with and frankly I'm scared to touch it.
+
+Since i created that project over a year ago I have learned many new techniques for creating a more flexible workspace with better, more readable conventions although documentation still needs work...
+
+The biggest difference will be the graphics and physics, as the general game idea will stay the same but this will allow me to expand it much further.
+
+This project will consist of
+-Graphics drawn in traditional OpenGL, through LWJGL, eventually taking advantage of GLSL to write shaders.
+-Music/Sounds (possibly with OpenAL)
+-A better physics engine
+	-Ships now have simulated thrusters, each independant of eachother, possibly to be destroyed or malfunction causing realistic driving issues
+	-Ships will have other modules that can be damaged that affect their behaviour and cause malfunctions
+	-Ships will no longer go through eachother, instead will 'bounce' 
+	-Some weapons will have kinetic force
+-Multiplayer over wifi 
+-Single player survival mode
+-Ship creation?
