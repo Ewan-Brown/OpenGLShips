@@ -29,8 +29,8 @@ public class BasicShip extends Entity {
 			}
 		};
 
-		p.staticThrusters.add(new StaticThruster(p, 0.1f, 0.1f, 0, p.xCenter, p.yCenter, 0.25f * 0.25f,Direction.FORWARD));
-		p.dynamicThrusters.add(new DynamicThruster(0,0.1f,0,p));
+		p.dynamicThrusters.add(new DynamicThruster(1f,0f,90,p,0.25f*0.25f));
+		p.dynamicThrusters.add(new DynamicThruster(-1f,0f,90,p,0.25f*0.25f));
 		return p;
 	}
 	public Drawable[] getSubDrawables(){

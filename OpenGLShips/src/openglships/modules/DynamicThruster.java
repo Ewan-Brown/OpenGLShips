@@ -1,5 +1,6 @@
 package openglships.modules;
 
+import org.joml.Math;
 import org.joml.Vector2f;
 
 import openglships.graphics.Drawable;
@@ -11,6 +12,7 @@ public class DynamicThruster implements Drawable{
 	public float thrustMultiplier = 0.001f;
 	public float baseAngle = 0;
 	Vector2f position;
+	public float rSquared;
 	
 	//VTOL 
 	public float currentAngle = 0;
@@ -19,10 +21,11 @@ public class DynamicThruster implements Drawable{
 	
 	BasicShip parent;
 	
-	public DynamicThruster(float thrusterX, float thrusterY, float baseAngle, BasicShip p){
+	public DynamicThruster(float thrusterX, float thrusterY, float baseAngle, BasicShip p, float rSquared){
 		position = new Vector2f(thrusterX,thrusterY);
-		this.baseAngle = baseAngle;
+		this.baseAngle = baseAngle; 
 		this.parent = p;
+		this.rSquared = rSquared;
 	}
 	public Vector2f getForce(){
 		return new Vector2f(thrustMultiplier * (float)Math.cos(baseAngle),thrustMultiplier * (float)Math.sin(baseAngle));
@@ -30,7 +33,7 @@ public class DynamicThruster implements Drawable{
 	//TODO Use Mass of ship (inverse relationship)
 	public float getTurningAcceleration(){
 		Vector2f force = getForce();
-		return (float) Math.sin(position.angle(getForce())) * position.length() * force.length();
+		return (float) Math.sin(position.angle(getForce())) * position.length() * force.length() / rSquared;
 	}
 	public Vector2f getAppliedForce(){
 		return new Vector2f(thrustMultiplier * (float)Math.cos(currentAngle * parent.angle),thrustMultiplier * (float)Math.sin(currentAngle * parent.angle));

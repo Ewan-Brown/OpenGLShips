@@ -34,6 +34,7 @@ public class StaticThruster implements Drawable{
 		if(rMod == 0){
 			theta2 = 0;
 		}
+		System.out.println(Math.toDegrees(theta));
 		alphaAtMaxThrottle = rMod * fMod * theta2 / rSquared;
 	}
 	public Direction Direction;
