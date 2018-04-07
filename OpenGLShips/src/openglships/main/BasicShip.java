@@ -1,11 +1,10 @@
 package openglships.main;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import openglships.graphics.Drawable;
-import openglships.modules.DynamicThruster;
-import openglships.modules.StaticThruster;
-import openglships.modules.StaticThruster.Direction;;
+import openglships.modules.DynamicThruster;;
 
 public class BasicShip extends Entity {
 
@@ -24,52 +23,70 @@ public class BasicShip extends Entity {
 			public float[] getVertices() {
 				return Shapes.rectangle;
 			}
+
 			public float getScale() {
-				return 0.1f;
+				return 0.2f;
 			}
 		};
-
-		p.dynamicThrusters.add(new DynamicThruster(1f,0f,90,p,0.25f*0.25f));
-		p.dynamicThrusters.add(new DynamicThruster(-1f,0f,90,p,0.25f*0.25f));
+		float s = p.rand.nextFloat()*0.9f + 0.1f;
+		p.dynamicThrusters.add(new DynamicThruster(-1f,s,0,p,0.25f*0.25f));
+		p.dynamicThrusters.add(new DynamicThruster(-1f, -s, 0, p, 0.25f * 0.25f));
+		p.angle = 180;
 		return p;
 	}
-	public Drawable[] getSubDrawables(){
-		return staticThrusters.toArray(new StaticThruster[staticThrusters.size()]);
+
+	public Drawable[] getSubDrawables() {
+		return dynamicThrusters.toArray(new DynamicThruster[dynamicThrusters.size()]);
 	}
+
 	public void update() {
 		super.update();
 		xSpeed -= xSpeed / 3;
 		ySpeed -= ySpeed / 3;
 		turnSpeed -= turnSpeed / 3;
-		applyDynamicThrust(1f);
+		updateAI();
 	}
 
-	ArrayList<StaticThruster> staticThrusters = new ArrayList<StaticThruster>();
+	// XXX Move this to a subclass with AI
+	public float targetX;
+	public float targetY;
+	public float theshold = 5f;
+	public float speed = 1f;
+	float targetAngle = 90;
+	Random rand = new Random();
+	public void updateAI() {
+		float angleDiff = targetAngle%360 - angle%360;
+		if(Math.abs(angleDiff) < theshold)targetAngle += 90;
+		System.out.println(targetAngle%360 + " " + angleDiff);
+		float throttle = angleDiff / 180f;
+		if(Math.abs(throttle) > 1) throttle = 1 * Math.signum(throttle);
+		applyDynamicThrustButAlsoTurn(1, throttle);
+		
+	}
+
 	ArrayList<DynamicThruster> dynamicThrusters = new ArrayList<DynamicThruster>();
-
-	public void applyStaticThrust(float currentThrottle) {
+    //Negative is turn right positive is left
+	public void applyDynamicThrustButAlsoTurn(float currentThrottle, float turn) {
 		float sumX = 0;
 		float sumY = 0;
 		float sumAlpha = 0;
-		for (StaticThruster t : staticThrusters) {
-			float T = t.throttleMultiplier * currentThrottle ;
-			sumX += (float) (T * Math.cos(Math.toRadians(angle + t.baseAngle)));
-			sumY += (float) (T * Math.sin(Math.toRadians(angle + t.baseAngle)));
-			sumAlpha += Math.toDegrees(t.alphaAtMaxThrottle);
-		}
-		turnSpeed += sumAlpha;
-		xSpeed += sumX;
-		ySpeed += sumY;
-	}
-	public void applyDynamicThrust(float currentThrottle) {
-		float sumX = 0;
-		float sumY = 0;
-		float sumAlpha = 0;
+		float lSide = Math.min(1, -2*turn + 1);
+		float rSide = Math.min(1, 2*turn + 1);
 		for (DynamicThruster t : dynamicThrusters) {
-			float T = t.thrustMultiplier * currentThrottle ;
-			sumX += (float) (T * Math.cos(Math.toRadians(angle + t.baseAngle + t.currentAngle)));
-			sumY += (float) (T * Math.sin(Math.toRadians(angle + t.baseAngle + t.currentAngle)));
-			sumAlpha += Math.toDegrees(t.getTurningAcceleration());
+			float T = t.thrustMultiplier * currentThrottle;
+			float sumXC = (float) (T * Math.cos(Math.toRadians(angle + t.baseAngle + t.currentAngle)));
+			float sumYC = (float) (T * Math.sin(Math.toRadians(angle + t.baseAngle + t.currentAngle)));
+			float sumAlphaC = (float) (currentThrottle * Math.toDegrees(t.getTurningAcceleration()));
+			double d = 1;
+			if(t.getY() > 0) {
+				d = lSide;
+			}
+			else{
+				d = rSide;
+			}
+			sumX += sumXC * d;
+			sumY += sumYC * d;
+			sumAlpha += sumAlphaC * d;
 		}
 		turnSpeed += sumAlpha;
 		xSpeed += sumX;

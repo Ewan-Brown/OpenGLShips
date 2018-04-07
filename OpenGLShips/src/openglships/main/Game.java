@@ -7,7 +7,7 @@ import openglships.graphics.Graphics;
 public class Game {
 
 	public static ArrayList<Movable> movables = new ArrayList<Movable>();
-
+	//TODO Make sure this is multithreaded
 	public static void main(String[] args) {
 		Shapes.init();
 		for(int i = 0; i < 1;i++){

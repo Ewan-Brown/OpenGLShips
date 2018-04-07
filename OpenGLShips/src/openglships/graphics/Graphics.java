@@ -45,9 +45,12 @@ public class Graphics {
 	}
 	public static void render() {
 		GL11.glLoadIdentity();
+		//TODO Add Color usage 
 		GL11.glColor3f(0.5f, 0.5f, 0.9f);
+		GL11.glScaled(0.3, 0.3, 0.3);
 		for(int i = 0; i < Game.movables.size();i++){
 			Drawable d = Game.movables.get(i);
+			GL11.glColor3f(0.5f, 0.5f, 0.9f);
 			GL11.glPushMatrix(); 
 			GL11.glTranslatef(d.getX(),d.getY(),0);
 			GL11.glRotatef(d.getAngle(), 0.0f, 0.0f, 1f);
@@ -59,16 +62,27 @@ public class Graphics {
 			}
 			Drawable[] dS = d.getSubDrawables();
 			//TODO Draw modules
+			GL11.glEnd();
+			GL11.glPopMatrix();
+			GL11.glColor3f(0.9f, 0.9f, 0.1f);
 			if(dS != null){
 				for(int j = 0; j < dS.length;j++){
 					Drawable d2 = dS[j];
 					GL11.glPushMatrix(); 
-					
+					GL11.glTranslatef(d.getX(), d.getY(), 0);
+					GL11.glScalef(d2.getScale(), d2.getScale(), d2.getScale());
+					GL11.glRotatef(d.getAngle(), 0, 0, 1f);
+					GL11.glTranslatef(d2.getX(), d2.getY(), 0);
+					GL11.glRotatef(d2.getAngle(), 0, 0, 1f);
+					GL11.glBegin(GL11.GL_POLYGON);
+					float[] vS = d2.getVertices();
+					for(int k = 0; k < v.length / 2;k++){
+						GL11.glVertex2f(vS[k*2], vS[k*2+1]);
+					}
+					GL11.glEnd();
 					GL11.glPopMatrix();
 				}
 			}
-			GL11.glEnd();
-			GL11.glPopMatrix();
 		}
 	}
 	public void run() {

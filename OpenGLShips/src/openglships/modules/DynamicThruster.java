@@ -5,7 +5,10 @@ import org.joml.Vector2f;
 
 import openglships.graphics.Drawable;
 import openglships.main.BasicShip;
+import openglships.main.Shapes;
 
+
+//TODO add so that the thrust doesn't go from on to off, make like KSP engines where they take a second to slow down and turn on again. 
 public class DynamicThruster implements Drawable{
 
 	//Object-specific finals
@@ -16,8 +19,9 @@ public class DynamicThruster implements Drawable{
 	
 	//VTOL 
 	public float currentAngle = 0;
-	float targetAngle = 0;
-	float turningSpeed = 0;
+	float VTOLtargetAngle = 0;
+	float turningSpeed = 1;
+	float turningThreshold = 2;
 	
 	BasicShip parent;
 	
@@ -38,29 +42,39 @@ public class DynamicThruster implements Drawable{
 	public Vector2f getAppliedForce(){
 		return new Vector2f(thrustMultiplier * (float)Math.cos(currentAngle * parent.angle),thrustMultiplier * (float)Math.sin(currentAngle * parent.angle));
 	}
+	public void setTarget(float angle){
+		this.VTOLtargetAngle = angle;
+	}
+	//XXX REMOVEME And use set target + PID
+	public void setCurrentAngle(float angle){
+		this.currentAngle = angle;
+	}
+	public void update(){
+//		if(Math.abs(target - currentAngle))
+	}
 	@Override
 	public float getX() {
-		return 0;
+		return this.position.x;
 	}
 
 	@Override
 	public float getY() {
-		return 0;
+		return this.position.y;
 	}
 
 	@Override
 	public float getAngle() {
-		return 0;
+		return this.baseAngle + currentAngle;
 	}
 
 	@Override
 	public float getScale() {
-		return 0;
+		return 0.05f;
 	}
 
 	@Override
 	public float[] getVertices() {
-		return null;
+		return Shapes.rectangle;
 	}
 
 	@Override

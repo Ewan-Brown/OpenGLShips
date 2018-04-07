@@ -16,6 +16,7 @@ public class Movable implements Drawable{
 	float xSpeed = 0;
 	float ySpeed = 0;
 	float turnSpeed = 0;
+	//TODO Add Mass to objects and make this "apply force"
 	public void applySpeed(float xf, float yf){
 		xSpeed += xf;
 		ySpeed += yf;
