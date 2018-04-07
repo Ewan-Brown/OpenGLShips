@@ -8,7 +8,7 @@ import openglships.main.BasicShip;
 import openglships.main.Shapes;
 
 
-//TODO add so that the thrust doesn't go from on to off, make like KSP engines where they take a second to slow down and turn on again. 
+//TODO add throttle accelleration so that the thrust doesn't go from on to off instantly, make like KSP engines where they take a second to slow down and turn on again. 
 public class DynamicThruster implements Drawable{
 
 	//Object-specific finals

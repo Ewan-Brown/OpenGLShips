@@ -10,14 +10,11 @@ public class Game {
 	//TODO Make sure this is multithreaded
 	public static void main(String[] args) {
 		Shapes.init();
-		for(int i = 0; i < 1;i++){
+		for(int i = 0; i < 10;i++){
 			movables.add(BasicShip.createShip(
-//					(float)Math.random() * 2 - 1,
-//					(float)Math.random() * 2 - 1,
-//					(float)Math.random() * 360,
-					0,
-					0,
-					0,
+					((float)Math.random() - 0.5f) * 4,
+					((float)Math.random() - 0.5f) * 4,
+					(float)Math.random(),
 					(float)Math.random()*0.45f + 0.05f));
 		}
 		new Graphics().run();

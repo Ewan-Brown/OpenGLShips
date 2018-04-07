@@ -92,5 +92,31 @@ public class BasicShip extends Entity {
 		xSpeed += sumX;
 		ySpeed += sumY;
 	}
+	public void applyDynamicThrustOrTurn(float currentThrottle, float turn) {
+		float sumX = 0;
+		float sumY = 0;
+		float sumAlpha = 0;
+		float lSide = Math.min(1, -2*turn + 1);
+		float rSide = Math.min(1, 2*turn + 1);
+		for (DynamicThruster t : dynamicThrusters) {
+			float T = t.thrustMultiplier * currentThrottle;
+			float sumXC = (float) (T * Math.cos(Math.toRadians(angle + t.baseAngle + t.currentAngle)));
+			float sumYC = (float) (T * Math.sin(Math.toRadians(angle + t.baseAngle + t.currentAngle)));
+			float sumAlphaC = (float) (currentThrottle * Math.toDegrees(t.getTurningAcceleration()));
+			double d = 1;
+			if(t.getY() > 0) {
+				d = lSide;
+			}
+			else{
+				d = rSide;
+			}
+			sumX += sumXC * d;
+			sumY += sumYC * d;
+			sumAlpha += sumAlphaC * d;
+		}
+		turnSpeed += sumAlpha;
+		xSpeed += sumX;
+		ySpeed += sumY;
+	}
 
 }
