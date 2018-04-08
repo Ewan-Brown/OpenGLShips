@@ -3,6 +3,7 @@ package openglships.main;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 import openglships.graphics.Drawable;
 import openglships.modules.DynamicThruster;;
 
@@ -29,9 +30,10 @@ public class BasicShip extends Entity {
 			}
 		};
 		float s = p.rand.nextFloat()*0.9f + 0.1f;
+		s = 1;
 		p.dynamicThrusters.add(new DynamicThruster(-1f,s,0,p,0.25f*0.25f));
 		p.dynamicThrusters.add(new DynamicThruster(-1f, -s, 0, p, 0.25f * 0.25f));
-		p.angle = 180;
+		p.angle = angle;
 		return p;
 	}
 
@@ -48,16 +50,20 @@ public class BasicShip extends Entity {
 	}
 
 	// XXX Move this to a subclass with AI
-	public float targetX;
-	public float targetY;
+//	public float targetX;
+//	public float targetY;
 	public float theshold = 5f;
 	public float speed = 1f;
 	float targetAngle = 90;
 	Random rand = new Random();
 	public void updateAI() {
-		float angleDiff = targetAngle%360 - angle%360;
-		if(Math.abs(angleDiff) < theshold)targetAngle += 90;
-		System.out.println(targetAngle%360 + " " + angleDiff);
+//		if(Math.abs(angleDiff) < theshold)targetAngle += 90;
+		targetAngle = (float)Math.toDegrees(Math.atan2(-y-Game.targetY, Game.targetX-x));
+		float angleDiff = (targetAngle+180)%360 - (angle+180)%360;
+		if(Math.abs(angleDiff) > 180){
+			angleDiff -= 360 * Math.signum(angleDiff);
+		}
+		System.out.println(((int)targetAngle+180)%360 + " " + ((int)angle+180)%360 + " " + (int)angleDiff);
 		float throttle = angleDiff / 180f;
 		if(Math.abs(throttle) > 1) throttle = 1 * Math.signum(throttle);
 		applyDynamicThrustButAlsoTurn(1, throttle);
@@ -89,8 +95,8 @@ public class BasicShip extends Entity {
 			sumAlpha += sumAlphaC * d;
 		}
 		turnSpeed += sumAlpha;
-		xSpeed += sumX;
-		ySpeed += sumY;
+//		xSpeed += sumX;
+//		ySpeed += sumY;
 	}
 	public void applyDynamicThrustOrTurn(float currentThrottle, float turn) {
 		float sumX = 0;

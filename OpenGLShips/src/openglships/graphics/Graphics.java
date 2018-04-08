@@ -27,8 +27,12 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+import java.awt.Font;
+import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -43,11 +47,18 @@ public class Graphics {
 	public Graphics(){
 
 	}
+	public static double[] getCursorPos() {
+	    DoubleBuffer posX = BufferUtils.createDoubleBuffer(1);
+	    DoubleBuffer posY = BufferUtils.createDoubleBuffer(1);
+	    GLFW.glfwGetCursorPos(window, posX, posY);
+	    return new double[]{posX.get(0),posY.get(0)};
+	}
+	public static float scale = 0.3f;
 	public static void render() {
 		GL11.glLoadIdentity();
 		//TODO Add Color usage 
 		GL11.glColor3f(0.5f, 0.5f, 0.9f);
-		GL11.glScaled(0.3, 0.3, 0.3);
+		GL11.glScaled(scale, scale, scale);
 		for(int i = 0; i < Game.movables.size();i++){
 			Drawable d = Game.movables.get(i);
 			GL11.glColor3f(0.5f, 0.5f, 0.9f);

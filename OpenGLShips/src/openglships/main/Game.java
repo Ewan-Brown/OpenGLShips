@@ -10,21 +10,31 @@ public class Game {
 	//TODO Make sure this is multithreaded
 	public static void main(String[] args) {
 		Shapes.init();
-		for(int i = 0; i < 10;i++){
+		for(int i = 0; i < 1;i++){
 			movables.add(BasicShip.createShip(
-					((float)Math.random() - 0.5f) * 4,
-					((float)Math.random() - 0.5f) * 4,
-					(float)Math.random(),
+//					((float)Math.random() - 0.5f) * 4,
+//					((float)Math.random() - 0.5f) * 4,
+					0,0,
+					(float)Math.random()*360f,
 					(float)Math.random()*0.45f + 0.05f));
 		}
 		new Graphics().run();
 	}
+	public static float targetX = 0;
+	public static float targetY = 0;
 	public static void update(){
 		for(int i = 0; i < movables.size();i++){
 			Movable m = movables.get(i);
 			m.update();
 		}
+		float x = (float)Graphics.getCursorPos()[0] - Graphics.WIDTH / 2;
+		float y = (float)Graphics.getCursorPos()[1] - Graphics.HEIGHT / 2;
+		x /= Graphics.WIDTH/(2/Graphics.scale);
+		y /= Graphics.HEIGHT/(2/Graphics.scale);
+		targetX = x;
+		targetY = y;
 	}
+	
 	
 
 }
