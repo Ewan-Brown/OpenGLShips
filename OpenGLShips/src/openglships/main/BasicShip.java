@@ -15,14 +15,25 @@ public class BasicShip extends Entity {
 
 	public static BasicShip createShip(float x, float y, float angle, float scale) {
 		BasicShip p = new BasicShip(x, y, angle, 100) {
+			float[] color;
 			{
 				xCenter = (float) Shapes.rectangleCenter.getX();
 				yCenter = (float) Shapes.rectangleCenter.getY();
+				color = new float[4*3];
+				for(int i = 0 ; i < 4;i++){
+					color[i*3] = rand.nextFloat();
+					color[i*3 + 1] = rand.nextFloat();
+					color[i*3 + 2] = rand.nextFloat();
+				}
 			}
 
 			@Override
 			public float[] getVertices() {
 				return Shapes.rectangle;
+			}
+			@Override
+			public float[] getColors() {
+				return color;
 			}
 
 			public float getScale() {
@@ -30,7 +41,6 @@ public class BasicShip extends Entity {
 			}
 		};
 		float s = p.rand.nextFloat()*0.9f + 0.1f;
-		s = 1;
 		p.dynamicThrusters.add(new DynamicThruster(-1f,s,0,p,0.25f*0.25f));
 		p.dynamicThrusters.add(new DynamicThruster(-1f, -s, 0, p, 0.25f * 0.25f));
 		p.angle = angle;
@@ -40,12 +50,12 @@ public class BasicShip extends Entity {
 	public Drawable[] getSubDrawables() {
 		return dynamicThrusters.toArray(new DynamicThruster[dynamicThrusters.size()]);
 	}
-
+	float speedFriction = 20;
 	public void update() {
 		super.update();
-		xSpeed -= xSpeed / 3;
-		ySpeed -= ySpeed / 3;
-		turnSpeed -= turnSpeed / 3;
+		xSpeed -= xSpeed / 9;
+		ySpeed -= ySpeed / 9;
+		turnSpeed -= turnSpeed / speedFriction;
 		updateAI();
 	}
 
@@ -57,13 +67,11 @@ public class BasicShip extends Entity {
 	float targetAngle = 90;
 	Random rand = new Random();
 	public void updateAI() {
-//		if(Math.abs(angleDiff) < theshold)targetAngle += 90;
 		targetAngle = (float)Math.toDegrees(Math.atan2(-y-Game.targetY, Game.targetX-x));
 		float angleDiff = (targetAngle+180)%360 - (angle+180)%360;
 		if(Math.abs(angleDiff) > 180){
 			angleDiff -= 360 * Math.signum(angleDiff);
 		}
-		System.out.println(((int)targetAngle+180)%360 + " " + ((int)angle+180)%360 + " " + (int)angleDiff);
 		float throttle = angleDiff / 180f;
 		if(Math.abs(throttle) > 1) throttle = 1 * Math.signum(throttle);
 		applyDynamicThrustButAlsoTurn(1, throttle);
@@ -95,8 +103,8 @@ public class BasicShip extends Entity {
 			sumAlpha += sumAlphaC * d;
 		}
 		turnSpeed += sumAlpha;
-//		xSpeed += sumX;
-//		ySpeed += sumY;
+		xSpeed += sumX;
+		ySpeed += sumY;
 	}
 	public void applyDynamicThrustOrTurn(float currentThrottle, float turn) {
 		float sumX = 0;

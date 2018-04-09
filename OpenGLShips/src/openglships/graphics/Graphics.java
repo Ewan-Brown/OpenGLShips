@@ -27,7 +27,6 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-import java.awt.Font;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
@@ -42,8 +41,8 @@ import openglships.main.Game;
 
 public class Graphics {
 	static private long window;
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 800;
+	public static final int WIDTH = 1000;
+	public static final int HEIGHT = 1000;
 	public Graphics(){
 
 	}
@@ -53,7 +52,7 @@ public class Graphics {
 	    GLFW.glfwGetCursorPos(window, posX, posY);
 	    return new double[]{posX.get(0),posY.get(0)};
 	}
-	public static float scale = 0.3f;
+	public static float scale = 0.7f;
 	public static void render() {
 		GL11.glLoadIdentity();
 		//TODO Add Color usage 
@@ -68,7 +67,9 @@ public class Graphics {
 			GL11.glScalef(d.getScale(),d.getScale(),d.getScale());
 			GL11.glBegin(GL11.GL_POLYGON);
 			float[] v = d.getVertices();
+			float[] colors = d.getColors();
 			for(int j = 0; j < v.length / 2;j++){
+				GL11.glColor3f(colors[j*2], colors[j*2 + 1], colors[j*2 + 2]);
 				GL11.glVertex2f(v[j*2], v[j*2+1]);
 			}
 			Drawable[] dS = d.getSubDrawables();
@@ -136,6 +137,7 @@ public class Graphics {
 		glfwMakeContextCurrent(window);
 		glfwSwapInterval(1);
 		glfwShowWindow(window);
+
 	}
 
 }
